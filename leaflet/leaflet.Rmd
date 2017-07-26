@@ -13,8 +13,9 @@ Javascript!
 
 ### Installation
 
-```r
-install.packages("leaflet")
+```{r, eval = TRUE}
+install.packages(c("leaflet", "rgeos", "rgdal"), repos='http://cran.us.r-project.org')
+#install.packeges("gpclib"")
 ```
 
 ## Your First Map
@@ -26,12 +27,7 @@ add features to the map using the pipe operator (`%>%`) just
 like in dplyr. The `addTiles()` function adds mapping data
 from [Open Street Map](http://www.openstreetmap.org/).
 
-```{r, eval=FALSE}
-library(leaflet)
-my_map <- leaflet() %>% 
-  addTiles()
-my_map
-```
+
 
 ## Your First Map
 
@@ -40,6 +36,30 @@ library(leaflet)
 my_map <- leaflet() %>% 
   addTiles()
 my_map
+```
+
+## Downloading data for bike paths Barcelona
+
+```{r, eval = TRUE}
+url = "http://opendata-ajuntament.barcelona.cat/resources/bcn/CARRIL_BICI.DBF"
+download.file(url, destfile = "carril_bici.dbf", method = "auto")
+
+url = "http://opendata-ajuntament.barcelona.cat/resources/bcn/CARRIL_BICI.prj"
+download.file(url, destfile = "carril_bici.prj", method = "auto")
+
+url = "http://opendata-ajuntament.barcelona.cat/resources/bcn/CARRIL_BICI.SHP"
+download.file(url, destfile = "carril_bici.shp", method = "auto")
+
+url = "http://opendata-ajuntament.barcelona.cat/resources/bcn/CARRIL_BICI.SHX"
+download.file(url, destfile = "carril_bici.shx", method = "auto")
+```
+
+Loading the Shapefile in memory
+
+```{r, eval = TRUE}
+# load up area shape file:
+library(maptools)
+area <- readShapePoly("carril_bici.shp")
 ```
 
 ## Adding Markers
